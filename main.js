@@ -1,12 +1,22 @@
-var creatureCount = 1000;
+let creatureStart = 1000;
+let creatureMax = 1500;
+let generationsToDo = 10000;
+
 var totalCreatureIndex = 0;
+var generation = 0;
 var creatures = [];
 
 startUp();
 
 function startUp() {
-	creatures = randomFirstGeneration( creatureCount );
-	gameLoop();
+	creatures = randomFirstGeneration( creatureStart );
+	for ( var i = 0; i < generationsToDo; i++ ) {
+		gameLoop();
+	}
+	console.log( creatures.length );
+	Output.chartAge();
+	Output.chartMaxAge();
+	Output.chartAverageAge();
 }
 
 function gameLoop() {
@@ -14,7 +24,7 @@ function gameLoop() {
 	battleRoyale();
 	euthanize();
 	procreate();
-	Output.lifeStats();
+	observeStats();
 }
 
 function battleRoyale() {
@@ -65,15 +75,20 @@ function reward( creature ) {
 
 function procreate() {
 	var creaturesByFertility = creatures.sort( function( a, b ) {
-		return a.getFertility() > b.getFertility();
+		return a.getFertility() < b.getFertility();
 	});
 
-	for ( var i = 0; i < creatures.length && creatures.length < creatureCount; i++ ) {
+	var currentLength = creatures.length;
+
+	for ( var i = 0; i < currentLength && creatures.length < creatureMax; i++ ) {
 		var creature = creatures[i];
-		var skip = ( 1 - creature.getFertility() ) > Math.random();
+		var skip = creature.getFertility() > Math.random();
 
 		if ( !skip ) {
-			creatures.push( creature.procreate() );
+			var child = creature.procreate();
+			if ( child != undefined ){
+				creatures.push( child );
+			}			
 		}
 	}
 }
@@ -85,7 +100,23 @@ function euthanize() {
 }
 
 function ageAllCreatures() {
+	generation++;
 	creatures.forEach( function( creature ) {
 		creature.age++;
+		creature.fertilityBonus = 0;
 	});
+}
+
+
+/*
+*	Volatile function to track everything you care about in output. Remove or disable calls to improve speeds.
+*/
+function observeStats() { 
+	Output.maxAgeAtGeneration[ generation ] = creatures.sort( function( a, b ) {
+		return a.age < b.age;
+	})[0].age;
+
+	Output.averageAgeAtGeneration[ generation ] = creatures.reduce( function( prev, elem ) {
+		return prev + elem.age;
+	}, 0) / creatures.length;
 }

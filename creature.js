@@ -12,23 +12,26 @@ function Creature( id, mutability, fertility, intimidation, bravery, strength, s
 	this.name = name;
 	this.fertilityBonus = 0;
 	this.markedForDeath = false;
+	this.bornIn = generation;
 }
 
 Creature.prototype.getFertility = function() {
-	return sigmoid( this._fertility + this.fertilityBonus );
+	return shiftedSigmoid( this._fertility + this.fertilityBonus );
 };
 
 Creature.prototype.procreate = function() {
-	var mutability = getRandomArbitrary( mutability - this.mutability/2, mutability + this.mutability/2 );
-	var fertility = getRandomArbitrary( fertility - this.mutability/2, fertility + this.mutability/2 );
-	var intimidation = getRandomArbitrary( intimidation - this.mutability/2, intimidation + this.mutability/2 );
-	var bravery = getRandomArbitrary( bravery - this.mutability/2, bravery + this.mutability/2 );
-	var strength = getRandomArbitrary( strength - this.mutability/2, strength + this.mutability/2 );
-	var speed = getRandomArbitrary( speed - this.mutability/2, speed + this.mutability/2 );
+	var mutability = getRandomArbitrary( this.mutability - this.mutability/2, this.mutability + this.mutability/2 );
+	var fertility = getRandomArbitrary( this._fertility - this.mutability/2, this._fertility + this.mutability/2 );
+	var intimidation = getRandomArbitrary( this.intimidation - this.mutability/2, this.intimidation + this.mutability/2 );
+	var bravery = getRandomArbitrary( this.bravery - this.mutability/2, this.bravery + this.mutability/2 );
+	var strength = getRandomArbitrary( this.strength - this.mutability/2, this.strength + this.mutability/2 );
+	var speed = getRandomArbitrary( this.speed - this.mutability/2, this.speed + this.mutability/2 );
 
-	totalCreatureIndex++;
-	Output.totalBirths++;
-	return new Creature( totalCreatureIndex, mutability, fertility, intimidation, bravery, strength, speed, this.id );
+	if ( !( this.mutability > Math.random() ) ) {
+		totalCreatureIndex++;
+		Output.totalBirths++;
+		return new Creature( totalCreatureIndex, mutability, fertility, intimidation, bravery, strength, speed, this.id );	
+	}
 }
 
 Creature.prototype.markForDeath = function() {

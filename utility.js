@@ -1,5 +1,9 @@
+function shiftedSigmoid( t ) {
+    return 1 / ( 1 + Math.pow( Math.E, - ( t - 4 ) ) );
+}
+
 function sigmoid( t ) {
-    return 1 / ( 1 + Math.pow( Math.E, -t ) );
+    return 1 / ( 1 + Math.pow( Math.E, - t ) );
 }
 
 function randomFirstGeneration( creatureCount ) {
@@ -18,7 +22,7 @@ Number.prototype.isClose = function( number, tolerance ) {
 function randomCreature() {
 	totalCreatureIndex++;
 	var mutability = getRandomMax( 0.3 );
-	var fertility = getRandomMax( 0.3 );
+	var fertility = getRandomMax( 0.1 );
 	var intimidation = getRandomMax( 0.7 );
 	var bravery = getRandomMax( 0.7 );
 	var strength = getRandomMax( 0.3 );
@@ -53,4 +57,14 @@ function shuffle(array) {
     }
 
     return array;
+}
+
+function naturalNumbersArray( N ) {
+	var n = [];
+
+	for (var i = 1; i <= N; i++) {
+	   n.push(i);
+	}
+
+	return n;
 }

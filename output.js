@@ -1,4 +1,3 @@
-
 var Output = {
 	totalDeaths: 0,
 	totalBirths: 0,
@@ -46,6 +45,7 @@ var Output = {
 			data: {
 				labels: naturalNumbersArray( highestAge ),
 				datasets: [{
+					label: "Altersverteilung",
 					data: ages,
 					backgroundColor: 'rgba( 25, 25, 25, 1 )'
 				}],
@@ -61,6 +61,7 @@ var Output = {
 			data: {
 				labels: naturalNumbersArray( generation ),
 				datasets: [{
+					label: "Älteste Kreatur",
 					data: Output.maxAgeAtGeneration,
 				}]
 			}
@@ -75,11 +76,32 @@ var Output = {
 			data: {
 				labels: naturalNumbersArray( generation ),
 				datasets: [{
+					label: "Durchnschnittsalter",
 					data: Output.averageAgeAtGeneration,
 				}]
 			}
 		});
+	},
+
+	allRadarCharts: function() {
+		creatures.forEach( function( creature ) {
+			creature.drawRadarChart();
+		});
+	},
+
+	someRadarCharts: function() {
+		var selectedFew = creatures.filter( function( creature ) {
+			return Math.random() < 0.1;
+		});
+
+		selectedFew.forEach( function( creature ) {
+			creature.drawRadarChart();
+		});
 	}
-
-
 }
+
+
+Chart.defaults.global.responsive = false;
+Chart.defaults.global.events = [];
+Chart.defaults.global.legend.onClick = undefined;
+Chart.defaults.global.legend.onHover = undefined;

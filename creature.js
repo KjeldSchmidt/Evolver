@@ -13,6 +13,8 @@ function Creature( id, mutability, fertility, intimidation, bravery, strength, s
 	this.fertilityBonus = 0;
 	this.markedForDeath = false;
 	this.bornIn = generation;
+
+	this.canvas = null;
 }
 
 Creature.prototype.getFertility = function() {
@@ -37,4 +39,28 @@ Creature.prototype.procreate = function() {
 Creature.prototype.markForDeath = function() {
 	this.markedForDeath = true;
 	Output.totalDeaths++;
+}
+
+Creature.prototype.drawRadarChart = function() {
+	if ( this.canvas == null ) {
+		document.getElementById("creatureRadars").insertAdjacentHTML( 'beforeend', '<canvas id="' + this.id + '" width="250" height="250"></canvas>' );
+		this.canvas = document.getElementById( this.id );
+	}
+
+	var ctx = this.canvas;
+
+	var radarChart = new Chart( ctx, {
+		type: 'radar',
+		data: {
+			labels: [ "mutability", "fertility", "intimidation", "bravery", "strength", "speed" ],
+			datasets: [{
+				label: this.id,
+				data: this.getStatsArray(),	
+			}]
+		}
+	});
+}
+
+Creature.prototype.getStatsArray = function() {
+	return [ this.mutability, this._fertility, this.intimidation, this.bravery, this.strength, this.speed ];
 }

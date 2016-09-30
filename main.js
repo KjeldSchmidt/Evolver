@@ -1,6 +1,6 @@
 let creatureStart = 1000;
 let creatureMax = 1500;
-let generationsToDo = 10000;
+let generationsToDo = 2000;
 
 var totalCreatureIndex = 0;
 var generation = 0;
@@ -17,6 +17,7 @@ function startUp() {
 	Output.chartAge();
 	Output.chartMaxAge();
 	Output.chartAverageAge();
+	Output.someRadarCharts();
 }
 
 function gameLoop() {

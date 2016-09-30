@@ -3,19 +3,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Evoli Output</title>
+	<style>
+		#creatureRadars canvas {
+			display: inline-block !important;
+			margin: 1rem;
+		}
+	</style>
 </head>
 <body>
 
 <canvas id="ageDistribution" width="400" height="100"></canvas>
 <canvas id="maxAge" width="400" height="100"></canvas>
 <canvas id="averageAge" width="400" height="100"></canvas>
+<div id="creatureRadars">
+	
+</div>
 
 
-
+	<script type="text/javascript" src="Chart.js"></script>
 	<script type="text/javascript" src="output.js"></script>
 	<script type="text/javascript" src="creature.js"></script>
 	<script type="text/javascript" src="utility.js"></script>
-	<script type="text/javascript" src="Chart.js"></script>
 	<script type="text/javascript" src="main.js"></script>
 </body>
 </html>
